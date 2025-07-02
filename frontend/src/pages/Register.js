@@ -12,11 +12,22 @@ export default function Register({ onSuccess }) {
   };
 
   return (
-    <form onSubmit={submit}>
+    <div className="container">
       <h2>Register</h2>
-      <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="email" />
-      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="password" />
-      <button type="submit">Register</button>
-    </form>
+      <form onSubmit={submit}>
+        <input
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email"
+        />
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+        />
+        <button type="submit">Register</button>
+      </form>
+    </div>
   );
 }

@@ -13,11 +13,11 @@ router.post('/', auth, upload.single('file'), async (req, res) => {
     const data = await pdfParse(req.file.buffer);
     const text = data.text;
     const response = await axios.post(
-      'https://api-inference.huggingface.co/models/facebook/bart-large-cnn',
-      { inputs: text },
-      { headers: { Authorization: `Bearer ${process.env.HUGGINGFACE_API_KEY}` } }
+      'https://api-inference.huggingface.co/models/sshleifer/distilbart-cnn-12-6',
+      { inputs: text }
     );
-    const summaryText = response.data[0]?.summary_text || '';
+    const dataField = Array.isArray(response.data) ? response.data[0] : response.data;
+    const summaryText = dataField?.summary_text || '';
     const summary = new Summary({
       userId: req.user,
       text,

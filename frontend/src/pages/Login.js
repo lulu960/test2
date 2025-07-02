@@ -12,11 +12,22 @@ export default function Login({ onSuccess }) {
   };
 
   return (
-    <form onSubmit={submit}>
+    <div className="container">
       <h2>Login</h2>
-      <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="email" />
-      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="password" />
-      <button type="submit">Login</button>
-    </form>
+      <form onSubmit={submit}>
+        <input
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email"
+        />
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+        />
+        <button type="submit">Login</button>
+      </form>
+    </div>
   );
 }
