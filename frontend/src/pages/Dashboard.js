@@ -19,10 +19,14 @@ export default function Dashboard({ token, onLogout }) {
   };
 
   return (
-    <div>
+    <div className="container">
       <button onClick={onLogout}>Logout</button>
       <form onSubmit={upload}>
-        <input type="file" accept="application/pdf" onChange={(e) => setFile(e.target.files[0])} />
+        <input
+          type="file"
+          accept="application/pdf"
+          onChange={(e) => setFile(e.target.files[0])}
+        />
         <button type="submit">Upload</button>
       </form>
       {summary && <pre>{summary}</pre>}
