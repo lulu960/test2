@@ -1,0 +1,24 @@
+version: '3'
+services:
+  mongodb:
+    image: mongo
+    restart: always
+    ports:
+      - '27017:27017'
+  backend:
+    build: ./backend
+    restart: always
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/pdfsummary
+      - JWT_SECRET=${JWT_SECRET}
+      - HUGGINGFACE_API_KEY=${HUGGINGFACE_API_KEY}
+    ports:
+      - '5000:5000'
+    depends_on:
+      - mongodb
+  frontend:
+    build: ./frontend
+    ports:
+      - '3000:3000'
+    depends_on:
+      - backend
