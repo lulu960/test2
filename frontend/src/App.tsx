@@ -9,7 +9,7 @@ import { analyzeDocument, simulateProgress } from './services/documentAnalyzer';
 import { AnalysisState } from './types';
 
 function App() {
-  const { user, login, logout, isLoading: authLoading } = useAuth();
+  const { user, token, login, logout, isLoading: authLoading } = useAuth();
   const [analysisState, setAnalysisState] = useState<AnalysisState>({
     isAnalyzing: false,
     progress: 0,
@@ -32,8 +32,10 @@ function App() {
         setAnalysisState(prev => ({ ...prev, progress }));
       });
 
-      // Analyze document
-      const analysis = await analyzeDocument(file);
+      if (!token) throw new Error('No auth token');
+
+      // Analyze document via backend
+      const analysis = await analyzeDocument(file, token);
       
       setAnalysisState(prev => ({
         ...prev,
