@@ -1,17 +1,34 @@
 import { DocumentAnalysis } from '../types';
 
-// Simulated LLM analysis with improved document type detection
-export const analyzeDocument = async (file: File): Promise<DocumentAnalysis> => {
-  return new Promise((resolve) => {
-    // Simulate API processing time
-    setTimeout(() => {
-      // Detect document type based on filename and generate appropriate analysis
-      const documentType = detectDocumentType(file.name);
-      const analysis: DocumentAnalysis = generateAnalysisByType(file, documentType);
-      
-      resolve(analysis);
-    }, 3000);
+// Analyse le document via l'API backend puis génère une structure enrichie
+export const analyzeDocument = async (
+  file: File,
+  token: string
+): Promise<DocumentAnalysis> => {
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const response = await fetch(`${import.meta.env.VITE_API_URL}/api/upload`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
   });
+
+  if (!response.ok) {
+    throw new Error('Analyse échouée');
+  }
+
+  const data = await response.json();
+
+  const documentType = detectDocumentType(file.name);
+  const analysis: DocumentAnalysis = generateAnalysisByType(file, documentType);
+
+  // Remplace le résumé généré par celui du backend
+  analysis.summary = data.summary;
+
+  return analysis;
 };
 
 const detectDocumentType = (fileName: string): string => {
